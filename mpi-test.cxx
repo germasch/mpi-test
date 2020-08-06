@@ -1,7 +1,6 @@
 #include <mpi.h>
-#include
-#include
 #include <math.h>
+#include <iostream>
 
 int main(int argc, char **argv){
 int rank,size;
