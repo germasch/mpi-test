@@ -45,10 +45,10 @@ int main(int argc, char** argv)
     rdispls[i] = rdispls[i - 1] + recvcount[i - 1];
   }
   std::cout << "22" << '\n';
-  int n1 = 2;
-  int** send = new int*[n1];
+  const int n1 = 2;
+  std::vector<std::vector<int>> send(n1);
   for (int i = 0; i < n1; i++) {
-    send[i] = new int[num];
+    send[i].resize(num);
     for (int j = 0; j < num; j++)
       send[i][j] = j;
   }
@@ -64,7 +64,7 @@ int main(int argc, char** argv)
   MPI_Barrier(MPI_COMM_WORLD);
 
   for (int i = 0; i < n1; i++) {
-    MPI_Allgatherv(send[i], num, MPI_INT, tmp, recvcount.data(), rdispls.data(),
+    MPI_Allgatherv(send[i].data(), num, MPI_INT, tmp, recvcount.data(), rdispls.data(),
                    MPI_INT, comm_y);
   }
   std::cout << "44" << '\n';
