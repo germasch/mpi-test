@@ -12,7 +12,7 @@ int main(int argc, char** argv)
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
   assert(sqrt(size) == int(sqrt(size))); // make sure the size is an integer^2
-  int dimen[2] = {sqrt(size), sqrt(size)};
+  int dimen[2] = {int(sqrt(size)), int(sqrt(size))};
   int periods[2] = {1, 1};
   int rorder = 0;
 
