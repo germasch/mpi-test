@@ -56,14 +56,14 @@ int main(int argc, char** argv)
 
   int n_recv = std::accumulate(recvcount.begin(), recvcount.end(), 0);
 
-  int* tmp = new int[n_recv];
+  std::vector<int> recv_buf(n_recv);
 
   std::cout << "33" << '\n';
   MPI_Barrier(MPI_COMM_WORLD);
 
   for (int i = 0; i < n1; i++) {
-    MPI_Allgatherv(send[i].data(), num, MPI_INT, tmp, recvcount.data(), rdispls.data(),
-                   MPI_INT, comm_y);
+    MPI_Allgatherv(send[i].data(), num, MPI_INT, recv_buf.data(),
+                   recvcount.data(), rdispls.data(), MPI_INT, comm_y);
   }
   std::cout << "44" << '\n';
   MPI_Finalize();
