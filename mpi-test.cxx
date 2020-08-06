@@ -46,12 +46,9 @@ int main(int argc, char** argv)
     rdispls[i] = rdispls[i - 1] + recvcount[i - 1];
   }
   std::cout << "22" << '\n';
-  const int n1 = 2;
-  std::vector<std::vector<int>> send(n1);
-  for (int i = 0; i < n1; i++) {
-    send[i].resize(num);
-    for (int j = 0; j < num; j++)
-      send[i][j] = j;
+  std::vector<int> send_buf(num);
+  for (int j = 0; j < num; j++) {
+    send_buf[j] = j;
   }
 
   int n_recv = std::accumulate(recvcount.begin(), recvcount.end(), 0);
@@ -61,10 +58,9 @@ int main(int argc, char** argv)
   std::cout << "33" << '\n';
   MPI_Barrier(MPI_COMM_WORLD);
 
-  for (int i = 0; i < n1; i++) {
-    MPI_Allgatherv(send[i].data(), num, MPI_INT, recv_buf.data(),
-                   recvcount.data(), rdispls.data(), MPI_INT, comm_y);
-  }
+  MPI_Allgatherv(send_buf.data(), num, MPI_INT, recv_buf.data(),
+                 recvcount.data(), rdispls.data(), MPI_INT, comm_y);
+
   std::cout << "44" << '\n';
   MPI_Finalize();
 }
