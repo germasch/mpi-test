@@ -3,6 +3,7 @@
 #include <cassert>
 #include <iostream>
 #include <math.h>
+#include <numeric>
 #include <vector>
 
 int main(int argc, char** argv)
@@ -53,12 +54,9 @@ int main(int argc, char** argv)
       send[i][j] = j;
   }
 
-  int num1 = 0;
-  for (int i = 0; i < size; i++) {
-    num1 = num1 + recvcount[i];
-  }
+  int n_recv = std::accumulate(recvcount.begin(), recvcount.end(), 0);
 
-  int* tmp = new int[num1];
+  int* tmp = new int[n_recv];
 
   std::cout << "33" << '\n';
   MPI_Barrier(MPI_COMM_WORLD);
