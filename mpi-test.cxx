@@ -3,6 +3,7 @@
 #include <cassert>
 #include <iostream>
 #include <math.h>
+#include <vector>
 
 int main(int argc, char** argv)
 {
@@ -18,7 +19,7 @@ int main(int argc, char** argv)
 
   std::cout << "00" << '\n';
   MPI_Barrier(MPI_COMM_WORLD);
-  
+
   MPI_Comm comm;
   MPI_Cart_create(MPI_COMM_WORLD, 2, dimen, periods, rorder, &comm);
 
@@ -35,14 +36,9 @@ int main(int argc, char** argv)
   MPI_Comm_rank(comm_y, &mype_y);
 
   std::cout << "11" << '\n';
-  int* recvcount = new int[dimen[1]];
-  int* rdispls = new int[dimen[1]];
-
-  int num = 2;
-
-  for (int i = 0; i < dimen[1]; i++) {
-    recvcount[i] = num;
-  }
+  const int num = 2;
+  std::vector<int> recvcount(dimen[1], num);
+  std::vector<int> rdispls(dimen[1]);
 
   rdispls[0] = 0;
   for (int i = 1; i < dimen[1]; i++) {
@@ -68,8 +64,8 @@ int main(int argc, char** argv)
   MPI_Barrier(MPI_COMM_WORLD);
 
   for (int i = 0; i < n1; i++) {
-    MPI_Allgatherv(send[i], num, MPI_INT, tmp, recvcount, rdispls, MPI_INT,
-                   comm_y);
+    MPI_Allgatherv(send[i], num, MPI_INT, tmp, recvcount.data(), rdispls.data(),
+                   MPI_INT, comm_y);
   }
   std::cout << "44" << '\n';
   MPI_Finalize();
