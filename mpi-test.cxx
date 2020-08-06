@@ -1,5 +1,6 @@
 #include <mpi.h>
 
+#include <cassert>
 #include <iostream>
 #include <math.h>
 
@@ -13,6 +14,7 @@ int main(int argc, char** argv)
   int mype_x, mype_y;
   MPI_Comm subcomm[2], comm, comm_x, comm_y;
 
+  assert(sqrt(size) == int(sqrt(size)); // make sure the size is an integer^2
   int dimen[2];
   int rorder = 0;
   int periods[] = {1, 1};
