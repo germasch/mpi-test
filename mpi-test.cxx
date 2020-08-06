@@ -14,12 +14,10 @@ int main(int argc, char** argv)
   int mype_x, mype_y;
   MPI_Comm subcomm[2], comm, comm_x, comm_y;
 
-  assert(sqrt(size) == int(sqrt(size)); // make sure the size is an integer^2
-  int dimen[2];
+  assert(sqrt(size) == int(sqrt(size))); // make sure the size is an integer^2
+  int dimen[2] = {sqrt(size), sqrt(size)};
+  int periods[2] = {1, 1};
   int rorder = 0;
-  int periods[] = {1, 1};
-  dimen[0] = sqrt(size);
-  dimen[1] = sqrt(size);
 
   std::cout << "00" << '\n';
   MPI_Barrier(MPI_COMM_WORLD);
