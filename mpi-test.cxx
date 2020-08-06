@@ -11,9 +11,6 @@ int main(int argc, char** argv)
   MPI_Comm_size(MPI_COMM_WORLD, &size);
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-  int mype_x, mype_y;
-  MPI_Comm subcomm[2], comm, comm_x, comm_y;
-
   assert(sqrt(size) == int(sqrt(size))); // make sure the size is an integer^2
   int dimen[2] = {sqrt(size), sqrt(size)};
   int periods[2] = {1, 1};
@@ -21,15 +18,19 @@ int main(int argc, char** argv)
 
   std::cout << "00" << '\n';
   MPI_Barrier(MPI_COMM_WORLD);
-
+  
+  MPI_Comm comm;
   MPI_Cart_create(MPI_COMM_WORLD, 2, dimen, periods, rorder, &comm);
+
+  MPI_Comm subcomm[2];
   for (int i = 0; i < 2; i++) {
     int remain[2] = {0, 0};
     remain[i] = 1;
     MPI_Cart_sub(comm, remain, &subcomm[i]);
   }
-  comm_x = subcomm[0];
-  comm_y = subcomm[1];
+  MPI_Comm comm_x = subcomm[0];
+  MPI_Comm comm_y = subcomm[1];
+  int mype_x, mype_y;
   MPI_Comm_rank(comm_x, &mype_x);
   MPI_Comm_rank(comm_y, &mype_y);
 
