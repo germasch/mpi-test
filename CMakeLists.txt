@@ -10,3 +10,6 @@ find_package(MPI REQUIRED)
 
 add_executable(mpi-test mpi-test.cxx)
 target_link_libraries(mpi-test PRIVATE MPI::MPI_CXX)
+
+add_executable(mpi-hello mpi-hello.cxx)
+target_link_libraries(mpi-hello PRIVATE MPI::MPI_CXX)
